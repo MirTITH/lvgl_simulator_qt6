@@ -14,8 +14,6 @@ int main(int argc, char *argv[])
 {
     qmlRegisterType<LCD>("LCD", 1, 0, "LCD");
 
-    LvglThread lvgl_thread;
-
     auto lvglT = std::thread([&]() {
         while (lcds.size() < 1) {
             std::this_thread::sleep_for(500ms);
@@ -24,12 +22,12 @@ int main(int argc, char *argv[])
         lvgl_thread.LvglThreadEntry(isProgramRunning);
     });
 
-    auto lvglTick = std::thread([&lvgl_thread]() {
+    auto lvglTick = std::thread([]() {
         auto until_time = chrono::steady_clock::now();
         while (isProgramRunning) {
             until_time += 1ms;
             {
-                lock_guard<mutex> lock(lvgl_thread._mux);
+//                lock_guard<mutex> lock(lvgl_thread._mux);
                 lv_tick_inc(1);
             }
 
@@ -51,6 +49,8 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     auto result = app.exec();
+
+    isProgramRunning = false;
 
     lvglT.join();
     lvglTick.join();

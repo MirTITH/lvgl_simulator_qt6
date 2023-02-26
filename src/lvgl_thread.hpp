@@ -10,3 +10,5 @@ public:
 
     void LvglThreadEntry(bool &isProgramRunning);
 };
+
+extern LvglThread lvgl_thread;

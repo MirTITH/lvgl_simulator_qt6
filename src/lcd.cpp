@@ -20,12 +20,12 @@ void LCD::paint(QPainter *painter)
     //        }
     //    }
 
-//    QImage tempImage = screenMem->scaled(width(), height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QImage tempImage = screenMem->scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    //    painter->setRenderHint(QPainter::Antialiasing, true);
-    //    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
-//    painter->drawImage(0, 0, tempImage);
-        painter->drawImage(0, 0, *screenMem);
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+    painter->drawImage(0, 0, tempImage);
+    //        painter->drawImage(0, 0, *screenMem);
 }
 
 LCD::LCD(QQuickItem *parent)
@@ -58,6 +58,13 @@ void LCD::init(int screenWidth, int screenHeight)
     }
 }
 
+void LCD::lcdMouseDown(bool isDown)
+{
+    isLcdMouseDown = isDown;
+    //    qDebug() << "lcd Mouse Down:" << isDown;
+    //    qDebug() << getConvertedMouseX() << getConvertedMouseY();
+}
+
 void LCD::setScreenWidth(int newScreenWidth)
 {
     if (screenWidth == newScreenWidth) return;
@@ -70,4 +77,30 @@ void LCD::setScreenHeight(int newScreenHeight)
     if (screenHeight == newScreenHeight) return;
     screenHeight = newScreenHeight;
     emit screenHeightChanged();
+}
+
+double LCD::getLcdMouseX() const
+{
+    return lcdMouseX;
+}
+
+void LCD::setLcdMouseX(double newLcdMouseX)
+{
+    if (qFuzzyCompare(lcdMouseX, newLcdMouseX))
+        return;
+    lcdMouseX = newLcdMouseX;
+    emit lcdMouseXChanged();
+}
+
+double LCD::getLcdMouseY() const
+{
+    return lcdMouseY;
+}
+
+void LCD::setLcdMouseY(double newLcdMouseY)
+{
+    if (qFuzzyCompare(lcdMouseY, newLcdMouseY))
+        return;
+    lcdMouseY = newLcdMouseY;
+    emit lcdMouseYChanged();
 }

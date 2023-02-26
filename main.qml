@@ -24,12 +24,28 @@ Window {
                 repeat: true
                 onTriggered: lcd.update()
             }
-//            MouseArea {
-//                anchors.fill: parent
-//                onClicked: {
-//                    lcd.update()
-//                }
-//            }
+            MouseArea {
+                anchors.fill: parent
+                onPressed: {
+                    lcd.lcdMouseDown(true)
+                }
+
+                onReleased: {
+                    lcd.lcdMouseDown(false)
+                }
+
+                onMouseXChanged: {
+                    lcd.lcdMouseX = mouseX
+                    lcd.lcdMouseY = mouseY
+                    //                    console.log("XChange", mouseX, mouseY)
+                }
+
+                onMouseYChanged: {
+                    lcd.lcdMouseX = mouseX
+                    lcd.lcdMouseY = mouseY
+                    //                    console.log("XChange", mouseX, mouseY)
+                }
+            }
 
             Component.onCompleted: {
                 init(480, 320)

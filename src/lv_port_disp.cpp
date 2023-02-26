@@ -112,8 +112,8 @@ void lv_port_disp_init(uint32_t lcd_index)
 
     /*Set the resolution of the display*/
     lcd              = lcds[lcd_index];
-    disp_drv.hor_res = lcd->getScreenHeight();
-    disp_drv.ver_res = lcd->getScreenWidth();
+    disp_drv.hor_res = lcd->getScreenWidth();
+    disp_drv.ver_res = lcd->getScreenHeight();
 
     /*Used to copy the buffer's content to the display*/
     disp_drv.flush_cb = disp_flush;
@@ -127,7 +127,7 @@ void lv_port_disp_init(uint32_t lcd_index)
      * But if you have a different GPU you can use with this callback.*/
     // disp_drv.gpu_fill_cb = gpu_fill;
 
-    disp_drv.rotated = 3;
+//    disp_drv.rotated = 3;
     // disp_drv.sw_rotate = 1;
 
     /*Finally register the driver*/

@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(lvgl_simulator_qt6 VERSION 1.0.0 LANGUAGES CXX)
+project(lvgl_simulator_qt6 VERSION 1.0.0)
 
-#add_subdirectory(freetype)
 add_subdirectory(lvgl)
 
 set(CMAKE_AUTOMOC ON) # 设置自动生成moc文件,AUTOMOC打开可以省去QT5_WRAP_CPP命令
@@ -16,12 +15,13 @@ find_package(Qt6 REQUIRED COMPONENTS Quick REQUIRED)
 
 #qt_standard_project_setup()
 
+file(GLOB_RECURSE SOURCES
+    src/*.cpp src/*.c
+)
+
 add_executable(${PROJECT_NAME}
     qml.qrc
-    src/main.cpp
-    src/lcd.cpp
-    src/lvgl_thread.cpp
-    src/lv_port_disp.cpp
+    ${SOURCES}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -36,7 +36,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Quick
     lvgl::lvgl
-#    freetype::freetype
+    lvgl::demos
 )
 
 # 添加这行使得 Qt Creator 可以对Cpp中的Qml组件自动提示
