@@ -26,11 +26,7 @@ int main(int argc, char *argv[])
         auto until_time = chrono::steady_clock::now();
         while (isProgramRunning) {
             until_time += 1ms;
-            {
-//                lock_guard<mutex> lock(lvgl_thread._mux);
-                lv_tick_inc(1);
-            }
-
+            lv_tick_inc(1);
             this_thread::sleep_until(until_time);
         }
     });

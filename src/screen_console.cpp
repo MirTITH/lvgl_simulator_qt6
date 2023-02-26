@@ -56,7 +56,7 @@ static void ScreenConsoleThread(bool &isProgramRunning)
 
     while (isProgramRunning) {
 
-        if (counter < 30) {
+        if (counter < 300) {
             this_thread::sleep_for(50ms);
             {
                 lock_guard<mutex> lock(lvgl_thread._mux);

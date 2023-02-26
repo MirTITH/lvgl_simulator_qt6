@@ -19,7 +19,7 @@ Window {
             anchors.fill: parent
             anchors.margins: 4
             Timer {
-                interval: 1000 / 50
+                interval: 1000 / 125
                 running: true
                 repeat: true
                 onTriggered: lcd.update()

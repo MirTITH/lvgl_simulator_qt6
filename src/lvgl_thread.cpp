@@ -20,7 +20,7 @@ void LvglThread::LvglThreadEntry(bool &isProgramRunning)
             lock_guard<mutex> lock(_mux);
             lv_task_handler();
         }
-        until_time += 5ms;
+        until_time += 4ms;
         this_thread::sleep_until(until_time);
     }
 }

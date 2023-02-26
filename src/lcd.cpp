@@ -1,6 +1,8 @@
 #include "lcd.hpp"
 #include <QPainter>
 #include <QDebug>
+#include "lvgl_thread.hpp"
+#include <mutex>
 
 std::vector<LCD *> lcds;
 
@@ -14,17 +16,13 @@ void LCD::paint(QPainter *painter)
         return;
     }
 
-    //    for (int y = 0; y < screenMem->height(); ++y) {
-    //        for (int x = 0; x < screenMem->width(); ++x) {
-    //            screenMem->setPixel(x, y, qRgb(rand() % 255, rand() % 255, rand() % 255));
-    //        }
-    //    }
-
-    QImage tempImage = screenMem->scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-
+    lvgl_thread._mux.lock();
+    auto tempImg = screenMem;
+    lvgl_thread._mux.unlock();
+    QImage paintImg = tempImg->scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
-    painter->drawImage(0, 0, tempImage);
+    painter->drawImage(0, 0, paintImg);
     //        painter->drawImage(0, 0, *screenMem);
 }
 
