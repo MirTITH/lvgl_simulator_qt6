@@ -18,6 +18,19 @@ Window {
             id: lcd
             anchors.fill: parent
             anchors.margins: 4
+            Timer {
+                interval: 1000 / 50
+                running: true
+                repeat: true
+                onTriggered: lcd.update()
+            }
+//            MouseArea {
+//                anchors.fill: parent
+//                onClicked: {
+//                    lcd.update()
+//                }
+//            }
+
             Component.onCompleted: {
                 init(480, 320)
             }

@@ -13,6 +13,15 @@ class LCD : public QQuickPaintedItem
 public:
     void paint(QPainter *painter) override;
 
+    void setPixel(int x, int y, uint8_t r, uint8_t g, uint8_t b)
+    {
+        if (screenMem == nullptr) {
+            return;
+        }
+
+        screenMem->setPixel(x, y, qRgb(r, g, b));
+    };
+
     LCD(QQuickItem *parent = 0);
 
     ~LCD();
@@ -46,3 +55,5 @@ private:
     Q_PROPERTY(int screenWidth READ getScreenWidth NOTIFY screenWidthChanged);
     Q_PROPERTY(int screenHeight READ getScreenHeight NOTIFY screenHeightChanged);
 };
+
+extern std::vector<LCD *> lcds;

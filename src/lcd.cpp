@@ -14,17 +14,18 @@ void LCD::paint(QPainter *painter)
         return;
     }
 
-    for (int y = 0; y < screenMem->height(); ++y) {
-        for (int x = 0; x < screenMem->width(); ++x) {
-            screenMem->setPixel(x, y, qRgb(rand() % 255, rand() % 255, rand() % 255));
-        }
-    }
+    //    for (int y = 0; y < screenMem->height(); ++y) {
+    //        for (int x = 0; x < screenMem->width(); ++x) {
+    //            screenMem->setPixel(x, y, qRgb(rand() % 255, rand() % 255, rand() % 255));
+    //        }
+    //    }
 
-    QImage tempImage = screenMem->scaled(width(), height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+//    QImage tempImage = screenMem->scaled(width(), height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-//    painter->setRenderHint(QPainter::Antialiasing, true);
-//    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
-    painter->drawImage(0, 0, tempImage);
+    //    painter->setRenderHint(QPainter::Antialiasing, true);
+    //    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+//    painter->drawImage(0, 0, tempImage);
+        painter->drawImage(0, 0, *screenMem);
 }
 
 LCD::LCD(QQuickItem *parent)
@@ -49,6 +50,12 @@ void LCD::init(int screenWidth, int screenHeight)
     this->screenWidth  = screenWidth;
     this->screenHeight = screenHeight;
     screenMem          = new QImage(screenWidth, screenHeight, QImage::Format_RGB32);
+
+    for (int y = 0; y < screenMem->height(); ++y) {
+        for (int x = 0; x < screenMem->width(); ++x) {
+            screenMem->setPixel(x, y, qRgb(rand() % 255, rand() % 255, rand() % 255));
+        }
+    }
 }
 
 void LCD::setScreenWidth(int newScreenWidth)
