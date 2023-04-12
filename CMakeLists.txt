@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.16)
 
 project(lvgl_simulator_qt6 VERSION 1.0.0)
 
-add_subdirectory(lvgl)
+set(LVGL_LIB_DIR lvgl-8.3.6)
+
+include_directories(
+    ./src
+)
+
+add_subdirectory(${LVGL_LIB_DIR}/lvgl)
 
 set(CMAKE_AUTOMOC ON) # 设置自动生成moc文件,AUTOMOC打开可以省去QT5_WRAP_CPP命令
 set(CMAKE_AUTOUIC ON) # 设置自动生成ui.h文件,AUTOUIC打开可以省去QT5_WRAP_UI命令
@@ -11,22 +17,27 @@ set(CMAKE_AUTORCC ON) # 【optional】设置自动处理.qrc文件
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#set(Qt6_DIR D:/ProgramFiles/Qt/6.4.2/mingw_64/lib/cmake/Qt6)
+
 find_package(Qt6 REQUIRED COMPONENTS Quick REQUIRED)
 
 #qt_standard_project_setup()
 
 file(GLOB_RECURSE SOURCES
     src/*.cpp src/*.c
+    src/*.h src/*.hpp
 )
 
 add_executable(${PROJECT_NAME}
     qml.qrc
     ${SOURCES}
+    ${LVGL_LIB_DIR}/lv_conf.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ./src
-    ./lvgl
+    ${LVGL_LIB_DIR}
+    ${LVGL_LIB_DIR}/lvgl
 )
 
 #qt_add_qml_module(${PROJECT_NAME}
